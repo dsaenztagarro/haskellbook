@@ -1,5 +1,5 @@
 -- Chapter 4. Basic Data Types
-module Chapter4Exercises where
+module Exercises where
 
 data Mood = Blah | Woot deriving Show
 

@@ -1,4 +1,4 @@
-module Chapter6Exercises where
+module Exercises where
 
 import Data.List (sort)
 

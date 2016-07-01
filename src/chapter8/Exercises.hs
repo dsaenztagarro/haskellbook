@@ -1,4 +1,4 @@
-module Chapter8Exercises where
+module Exercises where
 
 cattyConny :: String -> String -> String
 cattyConny x y = x ++ "mrow" ++ y

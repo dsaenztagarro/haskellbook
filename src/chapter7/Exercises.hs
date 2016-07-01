@@ -1,4 +1,4 @@
-module Chapter7Exercises where
+module Exercises where
 
 addOneIfOdd :: (Integral a) => a -> a
 addOneIfOdd n = case odd n of

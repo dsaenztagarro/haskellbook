@@ -1,4 +1,4 @@
-module Chapter5Exercises where
+module Exercises where
 
 functionH :: [a] -> a
 functionH (x:_) = x
