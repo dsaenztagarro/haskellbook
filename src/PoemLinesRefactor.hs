@@ -5,7 +5,7 @@ secondSen = "In the forests of the night\n"
 thirdSen = "What immortal hand or eye\n"
 fourthSen = "Could frame thy fearful symmetry?"
 sentences = firstSen ++ secondSen
-					++ thirdSen ++ fourthSen
+          ++ thirdSen ++ fourthSen
 
 myLines :: String -> [String]
 myLines xs = go xs []
@@ -17,10 +17,10 @@ separator :: Char
 separator = '\n'
 
 readBlock :: String -> String
-readBlock ys = takeWhile isBlock ys
+readBlock = takeWhile isBlock
 
 dropBlock :: String -> String
-dropBlock ys = dropWhile isBlock ys
+dropBlock = dropWhile isBlock
 
 dropSeparators :: String -> String
 dropSeparators ys = dropWhile isSeparator ys
@@ -32,12 +32,12 @@ isBlock :: Char -> Bool
 isBlock = not . isSeparator
 
 shouldEqual =
-	[ "Tyger Tyger, burning bright"
-	, "In the forests of the night"
-	, "What immortal hand or eye"
-	, "Could frame thy fearful symmetry?"
-	]
+  [ "Tyger Tyger, burning bright"
+  , "In the forests of the night"
+  , "What immortal hand or eye"
+  , "Could frame thy fearful symmetry?"
+  ]
 
 main :: IO ()
 main =
-	print $ "Are they equal?" ++ show (myLines sentences == shouldEqual)
+  print $ "Are they equal?" ++ show (myLines sentences == shouldEqual)
