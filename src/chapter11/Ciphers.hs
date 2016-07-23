@@ -33,17 +33,19 @@ shift n x = chr $ base + mod (ord x - base + n) 26
 
 data ReplaceInfo = ReplaceInfo
   { keyword :: String
+  , count :: Int
   , result :: String }
 
 replaceChar :: ReplaceInfo -> Char -> ReplaceInfo
-replaceChar (ReplaceInfo key res) char = ReplaceInfo key newResult
-  where resWithoutSpaces = concat $ words res
-        index = mod (length resWithoutSpaces) (length key)
-        newChar = if char == ' ' then ' ' else (key !! index)
-        newResult = res ++ [newChar]
+replaceChar (ReplaceInfo key count res) char = ReplaceInfo key count' res'
+  where index = mod count (length key)
+        (count', newChar) = if char == ' '
+                            then (count, ' ')
+                            else (count + 1, (key !! index))
+        res' = res ++ [newChar]
 
 replace :: String -> String -> String
-replace xs k = result $ foldl replaceChar (ReplaceInfo k "") xs
+replace xs k = result $ foldl replaceChar (ReplaceInfo k 0 "") xs
 
 jump :: Char -> Int
 jump x = ord x - ord 'A'
@@ -52,19 +54,19 @@ jump x = ord x - ord 'A'
 
 testReplaceChar1 :: IO ()
 testReplaceChar1 =
-  if result (replaceChar (ReplaceInfo "ALLY" "") 'M') == "A"
+  if result (replaceChar (ReplaceInfo "ALLY" 0 "") 'M') == "A"
   then putStrLn "ReplaceChar1 OK"
   else putStrLn "ReplaceChar1 ERROR"
 
 testReplaceChar2 :: IO ()
 testReplaceChar2 =
-  if result (replaceChar (ReplaceInfo "ALLY" "ALL") 'T') == "ALLY"
+  if result (replaceChar (ReplaceInfo "ALLY" 3 "ALL") 'T') == "ALLY"
   then putStrLn "ReplaceChar2 OK"
   else putStrLn "ReplaceChar2 ERROR"
 
 testReplaceChar3 :: IO ()
 testReplaceChar3 =
-  if result (replaceChar (ReplaceInfo "ALLY" "ALLY") ' ') == "ALLY "
+  if result (replaceChar (ReplaceInfo "ALLY" 4 "ALLY") ' ') == "ALLY "
   then putStrLn "ReplaceChar3 OK"
   else putStrLn "ReplaceChar3 ERROR"
 
