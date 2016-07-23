@@ -1,3 +1,7 @@
+-- Book: haskell-programming-0.11.2-screen.pdf
+-- Section: Write map for BinaryTree
+-- Page: 469
+
 module MapForBinaryTree where
 
 data BinaryTree a =
@@ -29,7 +33,8 @@ mapOkay =
   then print "yup okay!"
   else error "test failed!"
 
--- Convert binary trees to lists
+-- Section: Convert binary trees to lists
+-- Page: 471
 
 preorder :: BinaryTree a -> [a]
 preorder Leaf = []
@@ -70,7 +75,8 @@ main = do
   testInorder
   testPostorder
 
--- Write foldr for BinaryTree
+-- Section: Write foldr for BinaryTree
+-- Page: 473
 
 foldTree :: (a -> b -> b) -> b -> BinaryTree a -> b
 foldTree _ b Leaf = b

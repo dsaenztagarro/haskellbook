@@ -1,3 +1,7 @@
+-- Book: haskell-programming-0.11.2-screen.pdf
+-- Section: Ciphers
+-- Page: 359
+
 module Cipher where
 
 import Data.Char (chr, isUpper, ord)
