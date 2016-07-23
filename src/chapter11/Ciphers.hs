@@ -6,13 +6,26 @@ module Ciphers where
 
 import Data.Char (chr, isUpper, ord)
 
+mystr = "MEET AT DAWN"
+mykey = "ALLY"
+
 caesar :: String -> String -> String
-caesar = undefined
--- caesar xs n = map (shift n) xs
+caesar xs k = map applyShiftr (zip xs keySub)
+  where keySub = replace xs k
 
 uncaesar :: String -> String -> String
-uncaesar = undefined
--- uncaesar xs n = map (shift (-n)) xs
+uncaesar xs k = map applyShiftl (zip xs keySub)
+  where keySub = replace xs k
+
+applyShiftr :: (Char, Char) -> Char
+applyShiftr (x, y) = if x == ' '
+                    then ' '
+                    else shift (jump y) x
+
+applyShiftl :: (Char, Char) -> Char
+applyShiftl (x, y) = if x == ' '
+                    then ' '
+                    else shift (-1 * (jump y)) x
 
 shift :: Int -> Char -> Char
 shift n x = chr $ base + mod (ord x - base + n) 26
@@ -24,13 +37,19 @@ data ReplaceInfo = ReplaceInfo
 
 replaceChar :: ReplaceInfo -> Char -> ReplaceInfo
 replaceChar (ReplaceInfo key res) char = ReplaceInfo key newResult
-  where index = mod (length res) (length key)
+  where resWithoutSpaces = concat $ words res
+        index = mod (length resWithoutSpaces) (length key)
         newChar = if char == ' ' then ' ' else (key !! index)
         newResult = res ++ [newChar]
 
--- replace :: String -> String -> String
--- replace xs k = foldl f (ReplaceInfo k "") xs
---
+replace :: String -> String -> String
+replace xs k = result $ foldl replaceChar (ReplaceInfo k "") xs
+
+jump :: Char -> Int
+jump x = ord x - ord 'A'
+
+-- Test cases
+
 testReplaceChar1 :: IO ()
 testReplaceChar1 =
   if result (replaceChar (ReplaceInfo "ALLY" "") 'M') == "A"
@@ -43,16 +62,36 @@ testReplaceChar2 =
   then putStrLn "ReplaceChar2 OK"
   else putStrLn "ReplaceChar2 ERROR"
 
--- testReplace :: IO ()
--- testReplace =
---   if replace "MEET AT DAWN" "ALLY" == "ALLY AL LYAL"
---   then putStrLn "Replace OK"
---   else putStrLn "Replace ERROR"
+testReplaceChar3 :: IO ()
+testReplaceChar3 =
+  if result (replaceChar (ReplaceInfo "ALLY" "ALLY") ' ') == "ALLY "
+  then putStrLn "ReplaceChar3 OK"
+  else putStrLn "ReplaceChar3 ERROR"
+
+testReplace :: IO ()
+testReplace =
+  if replace "MEET AT DAWN" "ALLY" == "ALLY AL LYAL"
+  then putStrLn "replace OK"
+  else putStrLn "replace ErrOr"
+
+testCaesar :: IO ()
+testCaesar =
+  if caesar "MEET AT DAWN" "ALLY" == "MPPR AE OYWY"
+  then putStrLn "caesar OK"
+  else putStrLn "caesar ERROR"
+
+testUncaesar :: IO ()
+testUncaesar =
+  if uncaesar "MPPR AE OYWY" "ALLY" == "MEET AT DAWN"
+  then putStrLn "uncaesar OK"
+  else putStrLn "uncaesar ERROR"
 
 main :: IO ()
 main = do
   testReplaceChar1
   testReplaceChar2
-  -- testReplace
-  -- testCaesar
+  testReplaceChar3
+  testReplace
+  testCaesar
+  testUncaesar
   -- testUncaesar
